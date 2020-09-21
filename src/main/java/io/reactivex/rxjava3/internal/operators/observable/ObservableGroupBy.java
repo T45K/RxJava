@@ -179,9 +179,10 @@ public final class ObservableGroupBy<T, K, V> extends AbstractObservableWithUpst
 
         public void cancel(K key) {
             Object mapKey = key != null ? key : NULL_KEY;
-            groups.remove(mapKey);
-            if (decrementAndGet() == 0) {
-                upstream.dispose();
+            if (groups.remove(mapKey) != null) {
+                if (decrementAndGet() == 0) {
+                    upstream.dispose();
+                }
             }
         }
     }
